@@ -1,0 +1,55 @@
+// Copyright 2017 The LevelDB Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file. See the AUTHORS file for names of contributors.
+
+#ifndef STORAGE_LEVELDB_PORT_PORT_CONFIG_H_
+#define STORAGE_LEVELDB_PORT_PORT_CONFIG_H_
+
+// Define to 1 if you have a definition for fread_unlocked() in <stdio.h>.
+#if !defined(HAVE_FUNC_FREAD_UNLOCKED)
+#cmakedefine01 HAVE_FUNC_FREAD_UNLOCKED
+#endif  // !defined(HAVE_FUNC_FREAD_UNLOCKED)
+
+// Define to 1 if you have a definition for fwrite_unlocked() in <stdio.h>.
+#if !defined(HAVE_FUNC_FWRITE_UNLOCKED)
+#cmakedefine01 HAVE_FUNC_FWRITE_UNLOCKED
+#endif  // !defined(HAVE_FUNC_FWRITE_UNLOCKED)
+
+// Define to 1 if you have a definition for fflush_unlocked() in <stdio.h>.
+#if !defined(HAVE_FUNC_FFLUSH_UNLOCKED)
+#cmakedefine01 HAVE_FUNC_FFLUSH_UNLOCKED
+#endif  // !defined(HAVE_FUNC_FFLUSH_UNLOCKED)
+
+// Define to 1 if you have a definition for fdatasync() in <unistd.h>.
+#if !defined(HAVE_FUNC_FDATASYNC)
+#cmakedefine01 HAVE_FUNC_FDATASYNC
+#endif  // !defined(HAVE_FUNC_FDATASYNC)
+
+// Define to 1 if you have Google Snappy.
+#if !defined(HAVE_SNAPPY)
+#cmakedefine01 HAVE_SNAPPY
+#endif  // !defined(HAVE_SNAPPY)
+
+// TODO(pwnall): Remove this after renaming the SNAPPY macro.
+#if HAVE_SNAPPY
+#define SNAPPY HAVE_SNAPPY
+#endif  // HAVE_SNAPPY
+
+// Define to 1 if you have the <unistd.h> header file.
+#if !defined(HAVE_UNISTD_H)
+#cmakedefine01 HAVE_UNISTD_H
+#endif  // !defined(HAVE_UNISTD_H)
+
+// Define to 1 if your processor stores words with the most significant byte
+// first (like Motorola and SPARC, unlike Intel and VAX).
+#if !defined(LEVELDB_IS_BIG_ENDIAN)
+#cmakedefine01 LEVELDB_IS_BIG_ENDIAN
+#endif  // !defined(LEVELDB_IS_BIG_ENDIAN)
+
+// Define to 1 if targeting X86 and the compiler has the _mm_crc32_u{8,32,64}
+// intrinsics.
+#if !defined(LEVELDB_PLATFORM_POSIX_SSE)
+#cmakedefine LEVELDB_PLATFORM_POSIX_SSE 1
+#endif  // !defined(LEVELDB_PLATFORM_POSIX_SSE)
+
+#endif  // STORAGE_LEVELDB_PORT_PORT_CONFIG_H_
