@@ -286,156 +286,46 @@ if(LEVELDB_BUILD_TESTS)
   )
   target_link_libraries(leveldb_test_base leveldb)
 
-  add_executable(autocompact_test
+  set(LEVELDB_TEST_SOURCES
     "${PROJECT_SOURCE_DIR}/db/autocompact_test.cc"
-  )
-  target_link_libraries(autocompact_test leveldb_test_base)
-  add_test(NAME autocompact_test COMMAND autocompact_test)
-
-  add_executable(corruption_test
     "${PROJECT_SOURCE_DIR}/db/corruption_test.cc"
-  )
-  target_link_libraries(corruption_test leveldb_test_base)
-  add_test(NAME corruption_test COMMAND corruption_test)
-
-  add_executable(db_test
     "${PROJECT_SOURCE_DIR}/db/db_test.cc"
-  )
-  target_link_libraries(db_test leveldb_test_base)
-  add_test(NAME db_test COMMAND db_test)
-
-  add_executable(dbformat_test
     "${PROJECT_SOURCE_DIR}/db/dbformat_test.cc"
-  )
-  target_link_libraries(dbformat_test leveldb_test_base)
-  add_test(NAME dbformat_test COMMAND dbformat_test)
-
-  add_executable(fault_injection_test
     "${PROJECT_SOURCE_DIR}/db/fault_injection_test.cc"
-  )
-  target_link_libraries(fault_injection_test leveldb_test_base)
-  add_test(NAME fault_injection_test COMMAND fault_injection_test)
-
-  add_executable(filename_test
     "${PROJECT_SOURCE_DIR}/db/filename_test.cc"
-  )
-  target_link_libraries(filename_test leveldb_test_base)
-  add_test(NAME filename_test COMMAND filename_test)
-
-  add_executable(log_test
     "${PROJECT_SOURCE_DIR}/db/log_test.cc"
-  )
-  target_link_libraries(log_test leveldb_test_base)
-  add_test(NAME log_test COMMAND log_test)
-
-  add_executable(recovery_test
     "${PROJECT_SOURCE_DIR}/db/recovery_test.cc"
-  )
-  target_link_libraries(recovery_test leveldb_test_base)
-  add_test(NAME recovery_test COMMAND recovery_test)
-
-  add_executable(skiplist_test
     "${PROJECT_SOURCE_DIR}/db/skiplist_test.cc"
-  )
-  target_link_libraries(skiplist_test leveldb_test_base)
-  add_test(NAME skiplist_test COMMAND skiplist_test)
-
-  add_executable(version_edit_test
     "${PROJECT_SOURCE_DIR}/db/version_edit_test.cc"
-  )
-  target_link_libraries(version_edit_test leveldb_test_base)
-  add_test(NAME version_edit_test COMMAND version_edit_test)
-
-  add_executable(version_set_test
     "${PROJECT_SOURCE_DIR}/db/version_set_test.cc"
-  )
-  target_link_libraries(version_set_test leveldb_test_base)
-  add_test(NAME version_set_test COMMAND version_set_test)
-
-  add_executable(write_batch_test
     "${PROJECT_SOURCE_DIR}/db/write_batch_test.cc"
+    "${PROJECT_SOURCE_DIR}/issues/issue178_test.cc"
+    "${PROJECT_SOURCE_DIR}/issues/issue200_test.cc"
+    "${PROJECT_SOURCE_DIR}/table/filter_block_test.cc"
+    "${PROJECT_SOURCE_DIR}/table/table_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/arena_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/bloom_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/cache_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/coding_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/crc32c_test.cc"
+    # TODO: only include for a POSIX environment...
+    "${PROJECT_SOURCE_DIR}/util/env_posix_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/env_test.cc"
+    "${PROJECT_SOURCE_DIR}/util/hash_test.cc"
   )
-  target_link_libraries(write_batch_test leveldb_test_base)
-  add_test(NAME write_batch_test COMMAND write_batch_test)
+
+  foreach(test ${LEVELDB_TEST_SOURCES})
+      get_filename_component(basename ${test} NAME_WE)
+      add_executable("${basename}" ${test})
+      target_link_libraries("${basename}" leveldb_test_base)
+      add_test(NAME "${basename}" COMMAND "${basename}")
+  endforeach(test)
 
   add_executable(memenv_test
     "${PROJECT_SOURCE_DIR}/helpers/memenv/memenv_test.cc"
   )
   target_link_libraries(memenv_test leveldb_test_base leveldb_memenv)
   add_test(NAME memenv_test COMMAND memenv_test)
-
-  add_executable(issue178_test
-    "${PROJECT_SOURCE_DIR}/issues/issue178_test.cc"
-  )
-  target_link_libraries(issue178_test leveldb_test_base)
-  add_test(NAME issue178_test COMMAND issue178_test)
-
-  add_executable(issue200_test
-    "${PROJECT_SOURCE_DIR}/issues/issue200_test.cc"
-  )
-  target_link_libraries(issue200_test leveldb_test_base)
-  add_test(NAME issue200_test COMMAND issue200_test)
-
-  add_executable(filter_block_test
-    "${PROJECT_SOURCE_DIR}/table/filter_block_test.cc"
-  )
-  target_link_libraries(filter_block_test leveldb_test_base)
-  add_test(NAME filter_block_test COMMAND filter_block_test)
-
-  add_executable(table_test
-    "${PROJECT_SOURCE_DIR}/table/table_test.cc"
-  )
-  target_link_libraries(table_test leveldb_test_base)
-  add_test(NAME table_test COMMAND table_test)
-
-  add_executable(arena_test
-    "${PROJECT_SOURCE_DIR}/util/arena_test.cc"
-  )
-  target_link_libraries(arena_test leveldb_test_base)
-  add_test(NAME arena_test COMMAND arena_test)
-
-  add_executable(bloom_test
-    "${PROJECT_SOURCE_DIR}/util/bloom_test.cc"
-  )
-  target_link_libraries(bloom_test leveldb_test_base)
-  add_test(NAME bloom_test COMMAND bloom_test)
-
-  add_executable(cache_test
-    "${PROJECT_SOURCE_DIR}/util/cache_test.cc"
-  )
-  target_link_libraries(cache_test leveldb_test_base)
-  add_test(NAME cache_test COMMAND cache_test)
-
-  add_executable(coding_test
-    "${PROJECT_SOURCE_DIR}/util/coding_test.cc"
-  )
-  target_link_libraries(coding_test leveldb_test_base)
-  add_test(NAME coding_test COMMAND coding_test)
-
-  add_executable(crc32c_test
-    "${PROJECT_SOURCE_DIR}/util/crc32c_test.cc"
-  )
-  target_link_libraries(crc32c_test leveldb_test_base)
-  add_test(NAME crc32c_test COMMAND crc32c_test)
-
-  add_executable(env_posix_test
-    "${PROJECT_SOURCE_DIR}/util/env_posix_test_helper.h"
-    "${PROJECT_SOURCE_DIR}/util/env_posix_test.cc"
-  )
-  target_link_libraries(env_posix_test leveldb_test_base)
-  add_test(NAME env_posix_test COMMAND env_posix_test)
-
-  add_executable(env_test
-    "${PROJECT_SOURCE_DIR}/util/env_test.cc"
-  )
-  target_link_libraries(env_test leveldb_test_base)
-  add_test(NAME env_test COMMAND env_test)
-
-  add_executable(hash_test
-    "${PROJECT_SOURCE_DIR}/util/hash_test.cc"
-  )
-  target_link_libraries(hash_test leveldb_test_base)
-  add_test(NAME hash_test COMMAND hash_test)
 endif(LEVELDB_BUILD_TESTS)
 
 if(LEVELDB_BUILD_BENCHMARKS)
