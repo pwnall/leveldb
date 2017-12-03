@@ -31,4 +31,8 @@
 #cmakedefine01 LEVELDB_IS_BIG_ENDIAN
 #endif  // !defined(LEVELDB_IS_BIG_ENDIAN)
 
+#if !defined(LEVELDB_ATOMIC_PRESENT)
+#cmakedefine01 LEVELDB_ATOMIC_PRESENT
+#endif
+
 #endif  // STORAGE_LEVELDB_PORT_PORT_CONFIG_H_
