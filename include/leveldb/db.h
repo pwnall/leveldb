@@ -72,6 +72,20 @@ class LEVELDB_EXPORT DB {
   // Note: consider setting options.sync = true.
   virtual Status Delete(const WriteOptions& options, const Slice& key) = 0;
 
+  // Remove any database entries between (low_key, high_key). Returns OK on
+  // success and a non-OK status on error. Deleting a range that does not
+  // contain any keys is not an error.
+  //
+  // This operation works on an open range (exclusive of low_key and high_key).
+  // To delete a closed range, issue separate Delete operations for the range's
+  // ends.
+  //
+  // Note: consider setting options.sync = true.
+  virtual status DeleteRange(
+      const WriteOptions& options,
+      const Slice& low_key,
+      const Slice& high_key);
+
   // Apply the specified updates to the database.
   // Returns OK on success, non-OK on failure.
   // Note: consider setting options.sync = true.

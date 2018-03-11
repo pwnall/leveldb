@@ -1182,6 +1182,12 @@ Status DBImpl::Delete(const WriteOptions& options, const Slice& key) {
   return DB::Delete(options, key);
 }
 
+Status DBImpl::DeleteRange(const WriteOptions& options,
+                           const Slice& low_key,
+                           const Slice& high_key) {
+  return DB::DeleteRange(options, low_key, high_key);
+}
+
 Status DBImpl::Write(const WriteOptions& options, WriteBatch* updates) {
   Writer w(&mutex_);
   w.batch = updates;
