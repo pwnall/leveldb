@@ -386,6 +386,12 @@ if(LEVELDB_BUILD_TESTS)
 endif(LEVELDB_BUILD_TESTS)
 
 if(LEVELDB_BUILD_BENCHMARKS)
+  # This project is benchmarked using Google Benchmark.
+  # This project uses Google benchmark for benchmarking.
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+  set(BENCHMARK_ENABLE_EXCEPTIONS OFF CACHE BOOL "" FORCE)
+  add_subdirectory("third_party/benchmark")
+
   function(leveldb_benchmark bench_file)
     get_filename_component(bench_target_name "${bench_file}" NAME_WE)
 
@@ -400,7 +406,7 @@ if(LEVELDB_BUILD_BENCHMARKS)
 
         "${bench_file}"
     )
-    target_link_libraries("${bench_target_name}" leveldb gmock gtest)
+    target_link_libraries("${bench_target_name}" leveldb gmock gtest benchmark)
     target_compile_definitions("${bench_target_name}"
       PRIVATE
         ${LEVELDB_PLATFORM_NAME}=1
@@ -415,6 +421,7 @@ if(LEVELDB_BUILD_BENCHMARKS)
 
   if(NOT BUILD_SHARED_LIBS)
     leveldb_benchmark("benchmarks/db_bench.cc")
+    leveldb_benchmark("benchmarks/db_bench_log.cc")
   endif(NOT BUILD_SHARED_LIBS)
 
   check_library_exists(sqlite3 sqlite3_open "" HAVE_SQLITE3)
